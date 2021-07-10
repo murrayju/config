@@ -54,10 +54,11 @@ const noBuildConfig =
 const toMerge = [...(noBuildConfig ? [] : ['./build/config']), './config'];
 
 // handle cmd line args
-process.argv.forEach(val => {
+process.argv.forEach((val) => {
   const m = /^--merge-config(-prepend)?(?:=(.+))?$/.exec(val);
   if (m) {
     const [, prepend, path] = m;
+    // $FlowFixMe
     const { unshift, push } = Array.prototype;
     (prepend ? unshift : push).call(toMerge, path || '/config');
   }
@@ -68,7 +69,7 @@ const mergeEnv = process.env.MERGE_CONFIG_PATHS;
 if (mergeEnv) {
   try {
     const paths = JSON.parse(mergeEnv);
-    paths.forEach(p => toMerge.push(p));
+    paths.forEach((p) => toMerge.push(p));
   } catch (err) {
     console.error('MERGE_CONFIG_PATHS must be a json array.');
   }
@@ -77,7 +78,7 @@ const mergeEnvPrepend = process.env.MERGE_CONFIG_PREPEND_PATHS;
 if (mergeEnvPrepend) {
   try {
     const paths = JSON.parse(mergeEnvPrepend);
-    paths.forEach(p => toMerge.unshift(p));
+    paths.forEach((p) => toMerge.unshift(p));
   } catch (err) {
     console.error('MERGE_CONFIG_PREPEND_PATHS must be a json array.');
   }
@@ -107,7 +108,7 @@ export const { util } = config;
 
 const theConfig = util.extendDeep(
   {},
-  ...toMerge.map(p => util.loadFileConfigs(p)),
+  ...toMerge.map((p) => util.loadFileConfigs(p)),
   // NODE_CONFIG env var has precedence over files
   (() => {
     let envConfig = {};
@@ -137,7 +138,7 @@ const theConfig = util.extendDeep(
     return {};
   })(),
   // Custom env vars have highest precedence
-  ...toMerge.map(p => util.getCustomEnvVars(p, extNames)),
+  ...toMerge.map((p) => util.getCustomEnvVars(p, extNames)),
 );
 
 if (!Object.keys(theConfig).length) {

@@ -1,10 +1,9 @@
-// @flow
 import { CLIEngine } from 'eslint';
 import { buildLog } from 'build-strap';
 
 // Lint the source using eslint
 export default async function lint(
-  autoFix: boolean = !process.argv.includes('--lint-no-fix'),
+  autoFix = !process.argv.includes('--lint-no-fix'),
 ) {
   if (process.argv.includes('--no-lint')) {
     buildLog('Skipping due to --no-lint');

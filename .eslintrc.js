@@ -8,7 +8,6 @@ module.exports = {
     'plugin:flowtype/recommended',
     'plugin:prettier/recommended',
     'prettier',
-    'prettier/flowtype',
   ],
 
   parserOptions: {

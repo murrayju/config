@@ -1,6 +1,6 @@
 {
   "name": "@murrayju/config",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Wrapper around node-config for multiple folders support",
   "license": "MIT",
   "authors": [
@@ -13,6 +13,8 @@
     "npm": ">=4"
   },
   "buildStrap": {
+    "nodeVersion": "14.17.2",
+    "yarnVersion": "1.22.5",
     "repoType": "git",
     "copyright": "Justin Murray",
     "releaseBranch": "master",
@@ -26,8 +28,8 @@
       "repository": "murrayju"
     }
   },
-  "dependencies": {
-    "config": "^3.2.4"
+  "peerDependencies": {
+    "config": "3"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.5",
@@ -51,24 +53,21 @@
     "@babel/preset-env": "^7.7.6",
     "@babel/preset-flow": "^7.7.4",
     "babel-eslint": "^10.0.3",
-    "build-strap": "^1.1.1",
-    "camelcase": "5",
-    "eslint": "^6.7.2",
+    "build-strap": "^3.0.0",
+    "config": "^3.3.6",
+    "eslint": "^7.30.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-config-prettier": "^6.7.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-node": "^0.3.2",
     "eslint-plugin-babel": "5",
-    "eslint-plugin-flowtype": "^4.5.2",
+    "eslint-plugin-flowtype": "^5.8.0",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.17.0",
-    "flow-bin": "^0.113.0",
-    "fs-extra": "^8.1.0",
-    "prettier": "^1.19.1"
-  },
-  "resolutions": {
-    "set-value": "2.0.1"
+    "flow-bin": "^0.155.0",
+    "fs-extra": "^10.0.0",
+    "prettier": "^2.3.2"
   },
   "scripts": {
     "run": "babel-node tools/run"
