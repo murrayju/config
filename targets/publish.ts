@@ -1,30 +1,24 @@
-import { run, publish, getVersion, buildLog } from 'build-strap';
-import build from './build';
+import { buildLog, getVersion, run, yarnPublish } from 'build-strap';
+import { copy } from 'fs-extra';
 
-export default async function doPublish() {
-  if (process.argv.includes('--watch')) {
-    buildLog('`--watch` option is not compatible with publish.');
+import doPackage from './package.js';
+
+/**
+ * Publish to npm.
+ */
+export default async function runPublish() {
+  const publishPath = await run(doPackage);
+
+  const version = await getVersion();
+  const isDevBuild = parseInt(version.build, 10) === 0;
+  const doPublish = process.argv.includes('--force-publish') || !isDevBuild;
+  if (!doPublish) {
+    buildLog(
+      'Ignoring publish for dev build (build number is 0). Use --force-publish to override.',
+    );
     return;
   }
-  const version = await getVersion();
 
-  let reallyPublish = process.argv.includes('--force-publish');
-  if (!reallyPublish && process.argv.includes('--publish')) {
-    if (parseInt(version.build, 10) === 0) {
-      buildLog(
-        'Ignoring --publish for dev build (build number is 0). Use --force-publish to override.',
-      );
-    } else {
-      reallyPublish = true;
-    }
-  }
-
-  if (!process.argv.includes('--publish-only')) {
-    await run(build);
-  }
-  await publish({
-    distDir: './dist',
-    outDir: './out',
-    doPublish: reallyPublish,
-  });
+  await copy('./dist/package.json', './out/package.json');
+  await yarnPublish({ publishPath });
 }
