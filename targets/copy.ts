@@ -1,6 +1,6 @@
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { getPkg, getVersion, copySrc } from 'build-strap';
+import { getPkg, getVersion } from 'build-strap';
 import { ensureDir, copy } from 'fs-extra';
 
 /**
@@ -8,7 +8,6 @@ import { ensureDir, copy } from 'fs-extra';
  */
 export default async function doCopy() {
   await ensureDir('./dist');
-  await copySrc({ from: './src', to: './dist/src' });
   const version = await getVersion();
   const pkg = getPkg();
   await Promise.all([
@@ -21,7 +20,7 @@ export default async function doCopy() {
           version: version.npm,
           type: 'module',
           exports: './index.js',
-          types: './src/index.ts',
+          types: './index.d.ts',
           main: './index.js',
           dependencies: pkg.dependencies || {},
           peerDependencies: pkg.peerDependencies || {},
