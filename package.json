@@ -22,12 +22,7 @@
     "releaseBranch": "master",
     "devBranch": "dev",
     "npm": {
-      "publish": true,
-      "access": "public",
-      "registry": "https://registry.yarnpkg.com/"
-    },
-    "docker": {
-      "repository": "murrayju"
+      "publish": true
     }
   },
   "peerDependencies": {
