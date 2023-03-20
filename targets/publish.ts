@@ -1,6 +1,5 @@
 import { run, publish, getVersion, buildLog } from 'build-strap';
 import build from './build';
-import paths from './paths';
 
 export default async function doPublish() {
   if (process.argv.includes('--watch')) {
@@ -23,9 +22,9 @@ export default async function doPublish() {
   if (!process.argv.includes('--publish-only')) {
     await run(build);
   }
-  await run(publish, {
-    distDir: paths.dist,
-    outDir: paths.out,
+  await publish({
+    distDir: './dist',
+    outDir: './out',
     doPublish: reallyPublish,
   });
 }

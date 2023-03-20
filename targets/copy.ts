@@ -1,33 +1,28 @@
-import {
-  getPkg,
-  getVersion,
-  writeFile,
-  copyFile,
-  makeDir,
-  copySrc,
-  copyDir,
-} from 'build-strap';
-import paths from './paths';
+import { writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { getPkg, getVersion, copySrc } from 'build-strap';
+import { ensureDir, copy } from 'fs-extra';
 
 /**
  * Copies everything to the dist folder that we want to publish
  */
-export default async function copy() {
-  await makeDir(paths.dist);
-  await copySrc({ from: paths.src, to: paths.distSrc });
+export default async function doCopy() {
+  await ensureDir('./dist');
+  await copySrc({ from: './src', to: './dist/src' });
   const version = await getVersion();
   const pkg = getPkg();
   await Promise.all([
     // Support for flow annotation in published libraries
-    copyDir('./src', paths.dist, '**/*.js', null, (n) => `${n}.flow`),
-    copyDir('./src', paths.dist, '**/!(*.js)'),
     writeFile(
-      paths.in(paths.dist, 'package.json'),
+      './dist/package.json',
       JSON.stringify(
         {
           name: pkg.name,
           version: version.npm,
-          main: `index.js`,
+          type: 'module',
+          exports: './index.js',
+          types: './src/index.ts',
+          main: './index.js',
           dependencies: pkg.dependencies || [],
           peerDependencies: pkg.peerDependencies || [],
           engines: pkg.engines || [],
@@ -37,7 +32,7 @@ export default async function copy() {
       ),
     ),
     Promise.all(
-      ['LICENSE', 'README.md'].map((f) => copyFile(f, paths.in(paths.dist, f))),
+      ['LICENSE', 'README.md'].map((f) => copy(f, path.join('./dist', f))),
     ),
   ]);
 }

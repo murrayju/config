@@ -1,4 +1,3 @@
-// @flow
 import { buildLog, yarnUpgrade } from 'build-strap';
 
 // run yarn upgrade

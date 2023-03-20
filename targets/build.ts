@@ -1,8 +1,8 @@
-import { run, clean } from 'build-strap';
+import { run } from 'build-strap';
+import clean from './clean';
 import copy from './copy';
-import babel from './babel';
-import lint from './lint';
-import flow from './flow';
+import eslint from './eslint';
+import tsc from './tsc';
 
 /**
  * Compiles the project from source files into a distributable
@@ -10,8 +10,7 @@ import flow from './flow';
  */
 export default async function build() {
   await run(clean);
-  await run(lint);
-  await run(flow);
+  await run(eslint);
+  await run(tsc);
   await run(copy);
-  await run(babel);
 }
